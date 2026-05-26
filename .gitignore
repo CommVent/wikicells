@@ -1,0 +1,36 @@
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*~
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Node (in case extensions land later)
+node_modules/
+
+# Docker / runtime data — never commit a populated wiki database
+infra/data/
+infra/volumes/
+*.sqlite
+*.sqlite-journal
+
+# Secrets (LocalSettings.secrets.php should be generated per-deploy)
+infra/LocalSettings.secrets.php
+infra/.env
+infra/.env.local
+*.pem
+*.key
+
+# Build artifacts
+dist/
+build/
