@@ -1,0 +1,27 @@
+__NOTOC__
+
+Welcome to '''wikicells''' — a community-edited Creative Commons database where every cell and every column is itself a wiki.
+
+This is the reference deployment of [https://github.com/<TBD-org>/wikicells wikicells], an open-source infrastructure that any organization can use to host similar wikified-database sites.
+
+== Start here ==
+
+* [[About]] — what this project is and why it exists
+* [[Architecture]] — the stack, the data model, the federation posture
+* [[Roadmap]] — what's built, what's next
+* [[Trust Model]] — how reputation works (designed; not yet implemented)
+* [[Open Questions]] — the project's own decision log, hosted here as a wikified table (the first one)
+
+== Contributing ==
+
+Anyone can read. Editing requires a free account. New accounts can edit immediately; some actions are gated by [[mw:Help:User_access_levels|automatic promotion]] (autoconfirmed after 4 days and 10 edits; extended-confirmed after 30 days and 500 edits). Higher tiers are granted by admins.
+
+Structured data on this site is licensed [https://creativecommons.org/publicdomain/zero/1.0/ CC0]. Long-form prose is licensed [https://creativecommons.org/licenses/by-sa/4.0/ CC-BY-SA-4.0]. By editing you agree to release your contributions under these terms.
+
+== Federation ==
+
+This site federates with [https://www.wikidata.org/ Wikidata]. Properties defined there (like [https://www.wikidata.org/wiki/Property:P31 P31 "instance of"]) can be used directly on local items, and notable facts curated here can flow back upstream.
+
+== Query the data ==
+
+The SPARQL endpoint is at <code>https://<TBD-wdqs-host>/sparql</code>; the query UI is at the root of that hostname.
