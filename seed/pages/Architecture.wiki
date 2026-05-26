@@ -1,0 +1,60 @@
+== Stack ==
+
+{| class="wikitable"
+! Layer
+! Component
+|-
+| Wiki + structured data
+| MediaWiki + Wikibase extension
+|-
+| Database
+| MariaDB 10.11
+|-
+| Search
+| Elasticsearch
+|-
+| Query service
+| Blazegraph (Wikibase Query Service)
+|-
+| TLS termination
+| Traefik + Let's Encrypt
+|-
+| Container orchestration
+| Docker Compose
+|}
+
+Based on the upstream [https://github.com/wmde/wikibase-release-pipeline Wikibase Suite] release pipeline.
+
+== Data model ==
+
+A row in a wikified table is a Wikibase '''item''' (Q-ID).<br>
+A column is a Wikibase '''property''' (P-ID), defined globally and reused across tables.<br>
+A cell is a '''statement''' on an item using a property — and statements carry their own revision history through the item's revision log.
+
+A "table" is then a set of items sharing a common schema (a set of properties). Membership can be declared via "instance of" statements ([https://www.wikidata.org/wiki/Property:P31 Wikidata P31]) or recovered by SPARQL queries against the schema.
+
+== Why Wikibase ==
+
+It is the only mature open-source platform that natively combines:
+
+* Structured data with statement-level granularity, qualifiers, and references
+* Properties as wiki entities with their own revision history (schema-as-wiki)
+* Full revision history per entity
+* Battle-tested permissions: autoconfirmed → reviewer → admin → oversighter, with [https://www.mediawiki.org/wiki/Help:RevisionDelete RevisionDelete] and suppression
+* First-class Wikidata federation
+
+Alternatives surveyed — Semantic MediaWiki, the Cargo extension, Wiki.js, [https://www.dolthub.com/ Dolt] with a custom frontend — each lacked at least one of these, with the closest alternative requiring months of build work to reach parity.
+
+== Federation ==
+
+[https://www.mediawiki.org/wiki/Wikibase/Federation Federated Properties] is enabled. Local items reference Wikidata Q-IDs via [https://www.wikidata.org/wiki/Property:P31 P31] (instance-of) and other Wikidata properties directly, without re-defining them locally.
+
+Federated SPARQL queries can join local data against Wikidata in a single query. Structured data is CC0 so it can flow back to Wikidata frictionlessly via [https://www.wikidata.org/wiki/Help:QuickStatements QuickStatements] or curated bots.
+
+== Cell-level history UX gap ==
+
+Wikibase stores statement-level history — every statement change is part of an item revision — but does not ship a UI for "show me the history of this single cell." Closing that gap is the principal engineering investment after Hello World, planned as the <code>CellHistory</code> MediaWiki extension.
+
+== Trust model ==
+
+Deferred from Hello World. Hello World uses only MediaWiki's stock access-level ladder. The designed stake-and-slash vouching system is documented in [[Trust Model]] and will be implemented as the <code>TrustGraph</code> extension in a later phase.
