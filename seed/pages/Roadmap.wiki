@@ -1,0 +1,59 @@
+== Hello World phase ==
+
+Goal: a self-hosted Wikibase running at a real domain, populated with this project's own architectural decisions as a wikified table — demonstrating cell-as-wiki and schema-as-wiki on real project content from day one.
+
+{| class="wikitable"
+! Step
+! Description
+! Status
+|-
+| 1 || Scaffold repo layout + bootstrap docs || ✅ Done
+|-
+| 2 || <code>infra/docker-compose.yml</code> (Wikibase Suite) || ✅ Done
+|-
+| 3 || <code>infra/config/Extensions.php</code> (federation + CC0 + user groups) || ✅ Done
+|-
+| 4 || <code>seed/schema.yaml</code> + <code>seed/open-questions.tsv</code> || ✅ Done
+|-
+| 5 || <code>seed/pages/</code> (Main_Page, About, ...) || ⏳ In progress
+|-
+| 6 || <code>bots/seed_load.py</code> (idempotent seed loader) || ⏳ Pending
+|-
+| 7 || <code>infra/config/traefik-dynamic.yml</code> + deployment recipe || ✅ Done
+|-
+| 8 || User: provision VPS, register domain, first deploy || ⏳ User action
+|}
+
+== User actions blocking public deployment ==
+
+* Register a domain
+* Provision a VPS (≥ 4 GB RAM recommended for Elasticsearch + Blazegraph headroom)
+* Point DNS at the VPS
+* Set admin credentials in <code>infra/.env</code> on first boot
+
+Steps 1–7 do not depend on these — they all run locally on Docker Compose.
+
+== Post-Hello-World phases ==
+
+;Phase A — <code>CellHistory</code> extension
+:Custom MediaWiki extension surfacing per-statement edit history as a first-class UI. The principal engineering investment of this project — it's the gap between Wikibase and our "every cell is a wiki" requirement.
+
+;Phase B — Bots and export
+:<code>bots/wikidata_sync.py</code> (curated import/export with Wikidata) and <code>bots/export_mirror.py</code> (scheduled wiki → markdown mirror for offline / GitHub-search discoverability).
+
+;Phase C — <code>TrustGraph</code> extension
+:Stake-and-slash vouching system per [[Trust Model]]. Weeks of work; meaningfully more complex than <code>CellHistory</code>.
+
+;Phase D — Oversight policy
+:Document the appeal process for RevisionDelete and suppression; establish the audit trail; train initial oversighters.
+
+;Phase E — Federation hardening
+:Scheduled RDF dump publishing; SPARQL endpoint hardening; QuickStatements push-to-Wikidata workflow for notable facts.
+
+;Phase F — User's specific site (Goal ii)
+:The particular wikified-database site the user originally intended, implemented on the now-mature infrastructure.
+
+;Phase G — Adoption packaging (Goal i)
+:Turn <code>infra/</code> + <code>extensions/</code> + <code>bots/</code> + <code>seed/</code> into a forkable deployment template other organizations can adopt with minimal setup.
+
+The full decision log is maintained as wikified data — see the [[Special:WhatLinksHere/Item:Q_class_decision|Architectural decision]] class page once the seed loader has populated the data.
