@@ -1,0 +1,24 @@
+== Mission ==
+
+'''wikicells''' is open-source infrastructure for community-edited Creative Commons databases. It exists to answer one question: ''what if Wikipedia's contribution model applied to spreadsheet rows and column definitions, not just article prose?''
+
+== Why this exists ==
+
+A wiki gives you community-edited prose with full revision history, attribution, and Wikipedia-style permissions (including redaction of harmful content). A spreadsheet gives you rows and columns. Most open-source platforms do one or the other — none do both at cell-level granularity.
+
+The closest existing platform is [https://www.wikidata.org/ Wikidata] (built on Wikibase), which models the world as items with statements: every fact is a structured assertion, every assertion has revision history, every property is itself a wiki entity. This project takes that model and packages it so any organization can deploy a similar Creative Commons resource with minimal effort.
+
+== Two goals ==
+
+# '''Build the infrastructure''' so that other organizations can spin up similar wikified-database sites.
+# '''Use that infrastructure''' to host the project's own documentation (the site you're reading) and a specific target site (details forthcoming).
+
+== Values ==
+
+* '''Give back to the commons.''' Structured data is licensed [https://creativecommons.org/publicdomain/zero/1.0/ CC0] so it flows frictionlessly to Wikidata and other open repositories.
+* '''Be open and interoperable.''' [https://www.mediawiki.org/wiki/Wikibase/Federation Federated Properties] with Wikidata are enabled from day one. RDF dumps and a SPARQL endpoint are public.
+* '''Encourage others to do the same.''' Infrastructure is open-source. Deployment is reproducible. The project itself models the patterns it advocates.
+
+== Status ==
+
+Pre-Hello-World. See [[Roadmap]].
