@@ -1,0 +1,93 @@
+# Traefik dynamic configuration for the wikicells stack.
+#
+# Adapted from wmde/wikibase-release-pipeline deploy/config/traefik-dynamic.yml.
+# Routes are by host header — set WIKIBASE_PUBLIC_HOST and WDQS_PUBLIC_HOST
+# in infra/.env before bringing the stack up.
+
+http:
+  services:
+    wikibase:
+      loadBalancer:
+        servers:
+          - url: "http://wikibase:80"
+
+    wdqs:
+      loadBalancer:
+        servers:
+          - url: "http://wdqs:9999"
+
+    wdqs-frontend:
+      loadBalancer:
+        servers:
+          - url: "http://wdqs-frontend:80"
+
+    quickstatements:
+      loadBalancer:
+        servers:
+          - url: "http://quickstatements:80"
+
+  routers:
+    # Main wiki on WIKIBASE_PUBLIC_HOST. /tools/* is split off below so the
+    # QuickStatements URL can be served from the same hostname.
+    wikibase-router:
+      rule: 'Host(`{{ env "WIKIBASE_PUBLIC_HOST" }}`) && !PathPrefix(`/tools`)'
+      service: wikibase
+
+    # SPARQL endpoint at /sparql on WDQS_PUBLIC_HOST. Restricted to read-only
+    # HTTP methods via middleware (X-BIGDATA-READ-ONLY).
+    wdqs-router:
+      rule: 'Host(`{{ env "WDQS_PUBLIC_HOST" }}`) && PathPrefix(`/sparql`) && (Method(`GET`) || Method(`OPTIONS`) || Method(`POST`))'
+      service: wdqs
+      middlewares: [ wdqs-prefix, wdqs-headers, wdqs-cors-headers, wdqs-rate-limit ]
+
+    # SPARQL query UI at the WDQS_PUBLIC_HOST root.
+    wdqs-frontend-router:
+      rule: 'Host(`{{ env "WDQS_PUBLIC_HOST" }}`) && !PathPrefix(`/sparql`)'
+      service: wdqs-frontend
+
+    # QuickStatements at /tools/quickstatements on WIKIBASE_PUBLIC_HOST.
+    quickstatements-router:
+      rule: 'Host(`{{ env "WIKIBASE_PUBLIC_HOST" }}`) && PathPrefix(`/tools/quickstatements`)'
+      service: quickstatements
+      middlewares: [ quickstatements-redirectregex, quickstatements-stripprefix ]
+
+  middlewares:
+    # Internally rewrites /sparql to /bigdata/namespace/wdq/sparql — the path
+    # Blazegraph actually serves.
+    wdqs-prefix:
+      addPrefix:
+        prefix: /bigdata/namespace/wdq/
+
+    # Read-only Blazegraph + 5-minute query timeout.
+    wdqs-headers:
+      headers:
+        accessControlAllowMethods: "GET,OPTIONS,POST"
+        customResponseHeaders:
+          VARY: Accept
+        customRequestHeaders:
+          X-BIGDATA-READ-ONLY: yes
+          X-BIGDATA-MAX-QUERY-MILLIS: "300000"
+
+    # Permissive CORS for SPARQL clients in browsers.
+    wdqs-cors-headers:
+      headers:
+        accessControlAllowHeaders: "*"
+
+    # Rate limit: 60 req/min average, burst of 30. Tune for production load.
+    wdqs-rate-limit:
+      rateLimit:
+        burst: 30
+        average: 60
+        period: 1m
+
+    # Trailing-slash normalizer for the QuickStatements path.
+    quickstatements-redirectregex:
+      redirectRegex:
+        regex: /tools/quickstatements$
+        replacement: /tools/quickstatements/
+        permanent: true
+
+    # Strip the /tools/quickstatements prefix before forwarding upstream.
+    quickstatements-stripprefix:
+      stripPrefix:
+        prefixes: [ /tools/quickstatements ]
