@@ -1,0 +1,19 @@
+label	description	status	decision	decided_by	decided_when	rationale_link
+Infrastructure stack	Which open-source platform underpins the wikified database?	Q_status_decided	Wikibase on MediaWiki	planning session	+2026-05-24
+Trust mechanic	What does "invest reputation in another user" mean concretely?	Q_status_decided	Stake-and-slash on an earned floor	planning session	+2026-05-24
+Wikidata federation	Should the resource interoperate with Wikidata from day one?	Q_status_decided	Yes, federate from day one	planning session	+2026-05-24
+Data license	Under what licenses are structured data and prose published?	Q_status_decided	CC0 for structured data; CC-BY-SA 4.0 for prose	planning session	+2026-05-24
+Hosting model for Hello World	Where does the Hello World prototype run?	Q_status_decided	Self-hosted VPS with a real domain and TLS from day one	planning session	+2026-05-25
+First wikified table	What is the first wikified database table the project hosts?	Q_status_decided	The open-questions log itself	planning session	+2026-05-25
+Trust system phasing in Hello World	Is the stake-and-slash trust system implemented in the prototype?	Q_status_decided	No, defer entirely; rely on stock MediaWiki user-group ladder	planning session	+2026-05-25
+Initial deliverable shape	Is the deliverable a documentation set, a running site, or both?	Q_status_decided	Self-documenting Hello World site (canonical) + GitHub mirror	planning session	+2026-05-25
+Domain name	What domain hosts the live wiki?	Q_status_open
+VPS provider and sizing	Which provider hosts the VPS and at what tier?	Q_status_open
+Code license	Under what license is the infrastructure code published?	Q_status_open	leaning AGPL-3.0
+Schema mutability	May any user add new properties, or is property creation reviewed?	Q_status_open
+Internationalization at launch	Is the site multi-language from day one or English-only at first?	Q_status_open
+Initial admin and oversighter set	Who holds admin and oversighter rights at launch, and how are they appealed?	Q_status_open
+Anonymous editing	May unauthenticated users edit, Wikipedia-style?	Q_status_open
+Anti-abuse posture	What edit-rate limits, CAPTCHA, and AI-content detection are in place?	Q_status_open
+Scale targets	What user, row, and edit-rate targets define year-1 and year-2 success?	Q_status_open
+User's specific site (Goal ii)	What is the topic, schema, and initial content of the target site?	Q_status_deferred
