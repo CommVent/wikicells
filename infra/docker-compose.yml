@@ -1,0 +1,245 @@
+# ##############################################################################
+# Wikibase Suite — wikicells deployment
+#
+# Adapted from wmde/wikibase-release-pipeline deploy/docker-compose.yml
+# (https://github.com/wmde/wikibase-release-pipeline/tree/main/deploy).
+#
+# Customizations vs. upstream are minimal:
+#   - Project-specific values (compose project name, container labels) where
+#     applicable.
+#   - Inline comments explaining each section for newcomers to Docker Compose
+#     and to the Wikibase Suite stack.
+#
+# Federation with Wikidata and the CC0 license declaration are configured at
+# the MediaWiki layer via infra/config/Extensions.php — not here.
+#
+# To run locally:
+#   cp infra/env.example infra/.env
+#   # ... edit infra/.env (set hostnames, admin user, DB password) ...
+#   cd infra
+#   docker compose up -d
+#
+# To run on a VPS:
+#   See infra/README.md and docs/roadmap.md for the deployment recipe.
+# ##############################################################################
+
+name: wikicells
+
+services:
+  # ----------------------------------------------------------------------------
+  # A. CORE WIKIBASE SUITE
+  # ----------------------------------------------------------------------------
+
+  # MediaWiki + Wikibase. The image is preconfigured with Wikibase and a sane
+  # MediaWiki base; user customization (extensions, federation, licensing) is
+  # injected via LocalSettings.d/ overrides mounted from infra/config/.
+  wikibase:
+    image: wikibase/wikibase:7
+    depends_on:
+      mysql:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - ./config:/config:z
+      - ./config/extensions:/var/www/html/extensions/extensions:z
+      - ./config/Extensions.php:/var/www/html/LocalSettings.d/90_UserDefinedExtensions.php:z
+      - wikibase-image-data:/var/www/html/images
+      - quickstatements-data:/quickstatements/data
+    environment:
+      # Pinned to the version that this compose targets. Upgrade in lockstep.
+      DEPLOY_VERSION: "7.0.0"
+      METADATA_CALLBACK: ${METADATA_CALLBACK}
+      MW_ADMIN_NAME: ${MW_ADMIN_NAME}
+      MW_ADMIN_PASS: ${MW_ADMIN_PASS}
+      MW_ADMIN_EMAIL: ${MW_ADMIN_EMAIL}
+      MW_WG_SERVER: https://${WIKIBASE_PUBLIC_HOST}
+      DB_SERVER: mysql:3306
+      DB_USER: ${DB_USER}
+      DB_PASS: ${DB_PASS}
+      DB_NAME: ${DB_NAME}
+      ELASTICSEARCH_HOST: elasticsearch
+      QUICKSTATEMENTS_PUBLIC_URL: https://${WIKIBASE_PUBLIC_HOST}/tools/quickstatements
+      WDQS_PUBLIC_ENDPOINT_URL: https://${WDQS_PUBLIC_HOST}/sparql
+      WDQS_PUBLIC_FRONTEND_URL: https://${WDQS_PUBLIC_HOST}
+    healthcheck:
+      test: curl --silent --fail localhost/wiki/Main_Page
+      interval: 10s
+      start_period: 5m
+
+  # Background job runner — handles deferred jobs (search index updates,
+  # statistics, etc.) using the same image as wikibase.
+  wikibase-jobrunner:
+    image: wikibase/wikibase:7
+    command: /jobrunner-entrypoint.sh
+    depends_on:
+      wikibase:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes_from:
+      - wikibase
+
+  mysql:
+    image: mariadb:10.11
+    restart: unless-stopped
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASS}
+      MYSQL_RANDOM_ROOT_PASSWORD: yes
+    healthcheck:
+      test: healthcheck.sh --connect --innodb_initialized
+      start_period: 1m
+      interval: 20s
+      timeout: 5s
+
+  # ----------------------------------------------------------------------------
+  # B. SEARCH + QUERY SERVICE + TOOLS
+  # ----------------------------------------------------------------------------
+
+  # Full-text search. Can be removed in favor of MediaWiki's stock search if
+  # you don't need it — also remove MW_ELASTIC_* env vars from the wikibase
+  # image's defaults via LocalSettings.d/ overrides.
+  elasticsearch:
+    image: wikibase/elasticsearch:1
+    restart: unless-stopped
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: -Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true
+    healthcheck:
+      test: curl --silent --fail localhost:9200
+      interval: 10s
+      start_period: 2m
+
+  # SPARQL endpoint (Blazegraph). Required for the structured-data query
+  # service and for federated SPARQL queries against Wikidata.
+  wdqs:
+    image: wikibase/wdqs:2
+    command: /runBlazegraph.sh
+    depends_on:
+      wikibase:
+        condition: service_healthy
+    restart: unless-stopped
+    # Blazegraph needs a high fd limit, otherwise it aborts on startup with
+    # "library initialization failed - unable to allocate file descriptor
+    # table - out of memory" on some host kernels.
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 32768
+    volumes:
+      - wdqs-data:/wdqs/data
+    healthcheck:
+      test: curl --silent --fail localhost:9999/bigdata/namespace/wdq/sparql
+      interval: 10s
+      start_period: 2m
+
+  # Streams item/property changes from wikibase into the SPARQL store.
+  wdqs-updater:
+    image: wikibase/wdqs:2
+    command: /runUpdate.sh
+    depends_on:
+      wdqs:
+        condition: service_healthy
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 32768
+        hard: 32768
+    environment:
+      WIKIBASE_CONCEPT_URI: https://${WIKIBASE_PUBLIC_HOST}
+
+  # SPARQL query UI.
+  wdqs-frontend:
+    image: wikibase/wdqs-frontend:2
+    restart: unless-stopped
+    volumes:
+      - ./config:/config:z
+    environment:
+      WDQS_PUBLIC_URL: https://${WDQS_PUBLIC_HOST}/sparql
+      WIKIBASE_PUBLIC_URL: https://${WIKIBASE_PUBLIC_HOST}/w/api.php
+    healthcheck:
+      test: curl --silent --fail localhost
+      interval: 10s
+      start_period: 2m
+
+  # QuickStatements — batch-edit tool for items and statements. Used by
+  # bots/seed_load.py to populate a fresh instance with the open-questions
+  # table.
+  quickstatements:
+    image: wikibase/quickstatements:1
+    depends_on:
+      wikibase:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - quickstatements-data:/quickstatements/data
+    environment:
+      QUICKSTATEMENTS_PUBLIC_URL: https://${WIKIBASE_PUBLIC_HOST}/tools/quickstatements
+      WIKIBASE_PUBLIC_URL: https://${WIKIBASE_PUBLIC_HOST}
+    healthcheck:
+      test: curl --silent --fail localhost
+      interval: 10s
+      start_period: 2m
+
+  # ----------------------------------------------------------------------------
+  # C. REVERSE PROXY + TLS
+  # ----------------------------------------------------------------------------
+
+  # Traefik handles TLS termination, HTTP-to-HTTPS redirects, and Let's Encrypt
+  # certificate issuance via the HTTP-01 challenge. Routing rules live in
+  # infra/config/traefik-dynamic.yml.
+  traefik:
+    image: traefik:3
+    command:
+      - "--accesslog.format=common"
+      # HTTP entrypoint (port 80) is used only for the ACME challenge + HTTPS
+      # redirect.
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.asdefault"
+      - "--entrypoints.websecure.http.tls.certresolver=letsencrypt"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
+      - "--entrypoints.web.http.redirections.entrypoint.permanent=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web"
+      - "--certificatesresolvers.letsencrypt.acme.email=${MW_ADMIN_EMAIL}"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--providers.file.filename=/etc/traefik/dynamic.yml"
+      # ⚠ Uncomment the next line to use the Let's Encrypt staging environment
+      # while testing your DNS / firewall setup, to avoid hitting production
+      # rate limits.
+      # - "--certificatesresolvers.letsencrypt.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # ⚠ Uncomment for the Traefik dashboard (also expose port 8080 below).
+      # Never expose the dashboard publicly without authentication.
+      # - "--api.dashboard=true"
+      # - "--api.insecure=true"
+      # - "--log.level=DEBUG"
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+      # - 8080:8080  # Traefik dashboard (see --api flags above)
+    volumes:
+      - ./config/traefik-dynamic.yml:/etc/traefik/dynamic.yml:ro
+      - traefik-letsencrypt-data:/letsencrypt
+    environment:
+      WIKIBASE_PUBLIC_HOST: ${WIKIBASE_PUBLIC_HOST}
+      WDQS_PUBLIC_HOST: ${WDQS_PUBLIC_HOST}
+
+volumes:
+  # Wiki image uploads, item revisions, and other MediaWiki state.
+  wikibase-image-data:
+  mysql-data:
+  # SPARQL data store. Wiped + repopulated from MediaWiki on disaster recovery.
+  wdqs-data:
+  elasticsearch-data:
+  quickstatements-data:
+  # ACME certificate cache. Loss means re-issuing certs (mind LE rate limits).
+  traefik-letsencrypt-data:
