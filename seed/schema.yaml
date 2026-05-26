@@ -1,0 +1,95 @@
+# Schema for the wikicells seed.
+#
+# Loaded by bots/seed_load.py before the data rows. Each property and class
+# item is created in the local Wikibase instance and assigned a P-ID or Q-ID;
+# subsequent references in open-questions.tsv use the `id_alias` below to
+# resolve to the assigned IDs.
+#
+# Properties from Wikidata (e.g. P31 "instance of") are NOT redefined here —
+# Federated Properties makes them directly usable.
+
+# ------------------------------------------------------------------------------
+# Local properties (for the open-questions table)
+# ------------------------------------------------------------------------------
+
+properties:
+  - id_alias: P_status
+    datatype: wikibase-item
+    labels:
+      en: status
+    descriptions:
+      en: decision status of an open question
+    aliases:
+      en: [resolution status]
+
+  - id_alias: P_decision
+    datatype: monolingualtext
+    labels:
+      en: decision
+    descriptions:
+      en: the resolution chosen for this question
+    aliases:
+      en: [resolution]
+
+  - id_alias: P_decided_by
+    datatype: string
+    labels:
+      en: decided by
+    descriptions:
+      en: actor (user, role, or group) who made the decision
+    aliases:
+      en: [resolved by, decided by user]
+
+  - id_alias: P_decided_when
+    datatype: time
+    labels:
+      en: decided when
+    descriptions:
+      en: date the decision was reached
+    aliases:
+      en: [resolution date]
+
+  - id_alias: P_rationale_link
+    datatype: url
+    labels:
+      en: rationale link
+    descriptions:
+      en: URL to a page, commit, or discussion explaining the decision
+
+# ------------------------------------------------------------------------------
+# Class items (categories that local items are "instance of")
+# ------------------------------------------------------------------------------
+#
+# We use Wikidata's P31 ("instance of") via Federated Properties to mark
+# membership rather than defining our own instance-of property.
+
+class_items:
+  - id_alias: Q_class_decision
+    labels:
+      en: Architectural decision
+    descriptions:
+      en: a decision recorded in the wikicells open-questions log
+    statements: []
+
+# ------------------------------------------------------------------------------
+# Status items (values referenced by P_status)
+# ------------------------------------------------------------------------------
+
+status_items:
+  - id_alias: Q_status_decided
+    labels:
+      en: decided
+    descriptions:
+      en: question has a chosen resolution
+
+  - id_alias: Q_status_open
+    labels:
+      en: open
+    descriptions:
+      en: question is unresolved and awaiting input
+
+  - id_alias: Q_status_deferred
+    labels:
+      en: deferred
+    descriptions:
+      en: question is deliberately postponed to a later phase
