@@ -2,7 +2,7 @@ __NOTOC__
 
 Welcome to '''wikicells''' — a community-edited Creative Commons database where every cell and every column is itself a wiki.
 
-This is the reference deployment of [https://github.com/<TBD-org>/wikicells wikicells], an open-source infrastructure that any organization can use to host similar wikified-database sites.
+This is the reference deployment of [https://github.com/CommVent/wikicells wikicells], an open-source infrastructure that any organization can use to host similar wikified-database sites.
 
 == Start here ==
 
