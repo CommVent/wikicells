@@ -1,3 +1,7 @@
+<div style="border:1px solid #aaa;background:#f8f9fa;padding:0.5em 1em;margin-bottom:1em;font-size:95%;">
+'''Independent project — no Wikimedia affiliation.''' wikicells is not affiliated with, endorsed by, or sponsored by the [https://wikimediafoundation.org/ Wikimedia Foundation], [https://www.wikipedia.org/ Wikipedia], [https://www.wikidata.org/ Wikidata], [https://www.wikiba.se/ Wikibase], or [https://www.mediawiki.org/ MediaWiki]. References and comparisons to those projects on this page identify the open-source software being deployed (Wikibase, MediaWiki) or describe design influences and technical interoperability (federating with Wikidata, following MediaWiki conventions); conformance to their standards is not a claim of affiliation. "Wikipedia," "Wikimedia," and "Wikidata" are trademarks of the Wikimedia Foundation.
+</div>
+
 == Mission ==
 
 '''wikicells''' is open-source infrastructure for community-edited Creative Commons databases. It exists to answer one question: ''what if Wikipedia's contribution model applied to spreadsheet rows and column definitions, not just article prose?''

@@ -44,3 +44,6 @@ Yes, please update the plan to use `git filter-repo`, which is already installed
 
 ## Input 5 (2026-05 creating the wikisomething server)
 In the top-level `README.md`, I think it is important to add a disclaimer at the top that this project is not affiliated with Wikimedia/Wikipedia, etc.  Can you recommend and implement a suitable disclaimer.  It is probably good to note that attempts to conform to their standards should not be construed as misrepresenting an affiliation.  It may also be good to update some of those later references to reiterate that there is no official connection.
+
+## Input 6 (2026-05 creating the wikisomething server)
+Yes, please add similar, appropriate disclaimers to those as well.

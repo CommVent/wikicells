@@ -1,5 +1,9 @@
 __NOTOC__
 
+<div style="border:1px solid #aaa;background:#f8f9fa;padding:0.5em 1em;margin-bottom:1em;font-size:95%;">
+'''Independent project — no Wikimedia affiliation.''' wikicells is not affiliated with, endorsed by, or sponsored by the [https://wikimediafoundation.org/ Wikimedia Foundation], [https://www.wikipedia.org/ Wikipedia], [https://www.wikidata.org/ Wikidata], [https://www.wikiba.se/ Wikibase], or [https://www.mediawiki.org/ MediaWiki]. This site runs the open-source MediaWiki and Wikibase software and federates with Wikidata for technical interoperability; conformance to their standards is not a claim of affiliation. "Wikipedia," "Wikimedia," and "Wikidata" are trademarks of the Wikimedia Foundation.
+</div>
+
 Welcome to '''wikicells''' — a community-edited Creative Commons database where every cell and every column is itself a wiki.
 
 This is the reference deployment of [https://github.com/CommVent/wikicells wikicells], an open-source infrastructure that any organization can use to host similar wikified-database sites.
