@@ -41,3 +41,6 @@ How hard would it be to spin up a Claude Sonnet instance to go back through ever
 
 ## Input 4 (2026-05 creating the wikisomething server)
 Yes, please update the plan to use `git filter-repo`, which is already installed at `/home/rsage/.virtualenvs/git-filter-repo/bin/` with a shortcut located on my path at `/home/rsage/bin/git-filter-repo`.  If it is not on your path, you can update paths as needed.
+
+## Input 5 (2026-05 creating the wikisomething server)
+In the top-level `README.md`, I think it is important to add a disclaimer at the top that this project is not affiliated with Wikimedia/Wikipedia, etc.  Can you recommend and implement a suitable disclaimer.  It is probably good to note that attempts to conform to their standards should not be construed as misrepresenting an affiliation.  It may also be good to update some of those later references to reiterate that there is no official connection.

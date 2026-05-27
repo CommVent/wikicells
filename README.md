@@ -1,5 +1,15 @@
 # wikicells
 
+> **Independent project — no Wikimedia affiliation.** wikicells is not
+> affiliated with, endorsed by, or sponsored by the Wikimedia Foundation,
+> Wikipedia, Wikidata, Wikibase, or MediaWiki. References to those names
+> throughout this repository identify the upstream open-source software
+> being deployed (Wikibase, MediaWiki) or describe technical
+> interoperability (federating with Wikidata, following MediaWiki
+> conventions). Conformance to their standards is not a claim of
+> affiliation. "Wikipedia," "Wikimedia," and "Wikidata" are trademarks of
+> the Wikimedia Foundation.
+
 Infrastructure for **community-edited Creative-Commons databases** where every
 cell *and* every column definition is itself a wiki — full edit history,
 attribution, and Wikipedia-style permissions including redaction.
@@ -15,8 +25,10 @@ for offline browsing and GitHub search, but not the source of truth.
 Pre-Hello-World. Stack and key design decisions are committed; initial Docker
 Compose stand-up is next.
 
-- **Stack**: Wikibase (the engine behind Wikidata) + MediaWiki.
-- **Federation**: Wikidata federation enabled from day one.
+- **Stack**: Wikibase (the open-source engine that powers Wikidata) +
+  MediaWiki, deployed independently here.
+- **Federation**: Wikidata federation enabled from day one — this site
+  consumes Wikidata's public APIs as any third-party tool would.
 - **Data license**: CC0 for structured data (cells); CC-BY-SA for long-form
   prose.
 - **Hosting**: Self-hosted on a VPS with a real domain and TLS from day one.
@@ -42,6 +54,7 @@ See `docs/architecture.md` for the rationale.
 
 ## License
 
-- **Code**: see `LICENSE` (TBD; leaning AGPL-3.0 to match MediaWiki/Wikibase).
+- **Code**: see `LICENSE` — GPL-2.0-or-later, matching the upstream
+  MediaWiki and Wikibase license for technical compatibility.
 - **Documentation prose**: CC-BY-SA-4.0.
 - **Structured data**: CC0-1.0 (federation requirement with Wikidata).
