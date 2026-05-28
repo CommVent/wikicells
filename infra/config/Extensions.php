@@ -112,6 +112,15 @@ $wgGroupPermissions['user']['edit'] = true;
 $wgSitename = 'wikicells';
 $wgMetaNamespace = 'Wikicells';
 
+// Logo. The file lives in infra/config/branding/ and is bind-mounted to
+// resources/assets/branding/ (web-accessible) in docker-compose.yml.
+// $wgResourceBasePath resolves to the script path (e.g. /w), matching how
+// MediaWiki references its own default logos.
+$wgLogos = [
+	'1x' => "$wgResourceBasePath/resources/assets/branding/wikicells_logo_0.1.png",
+	'icon' => "$wgResourceBasePath/resources/assets/branding/wikicells_logo_0.1.png",
+];
+
 // English at launch (see docs/open-questions.md item E for i18n decision).
 $wgLanguageCode = 'en';
 
