@@ -112,13 +112,21 @@ $wgGroupPermissions['user']['edit'] = true;
 $wgSitename = 'wikicells';
 $wgMetaNamespace = 'Wikicells';
 
-// Logo. The file lives in infra/config/branding/ and is bind-mounted to
+// Logos. Files live in infra/config/branding/ and are bind-mounted to
 // resources/assets/branding/ (web-accessible) in docker-compose.yml.
 // $wgResourceBasePath resolves to the script path (e.g. /w), matching how
 // MediaWiki references its own default logos.
+//
+//   icon — the W mark only (no text); shown in the Vector header.
+//   1x   — the full lockup (W + wordmark); used on the Main Page and as
+//          the social / fallback logo.
+//
+// No 'wordmark' is set, so Vector renders the plain-text $wgSitename next
+// to the icon. This avoids showing "wikicells" twice (once in an image
+// that includes the wordmark, once as header text).
 $wgLogos = [
+	'icon' => "$wgResourceBasePath/resources/assets/branding/wikicells_logo_no_text_256x256_0.1.png",
 	'1x' => "$wgResourceBasePath/resources/assets/branding/wikicells_logo_0.1.png",
-	'icon' => "$wgResourceBasePath/resources/assets/branding/wikicells_logo_0.1.png",
 ];
 
 // English at launch (see docs/open-questions.md item E for i18n decision).

@@ -86,3 +86,9 @@ I just created `wikicells_logo_0.1.png`: where should this be placed to be wired
 
 ## Input 16 (2026-05 creating the wikisomething server)
 I do not want to exclude the .xcf, since that is what somebody would use to edit the .png
+
+## Input 17 (2026-05 creating the wikisomething server)
+Currently the logo contains both a W and the word `wikicells` and then the text `wikicells` is located immediately adjacent to it.  Should there be versions of the logo with and without the text?
+
+## Input 18 (2026-05 creating the wikisomething server)
+I just created `infra/config/branding/wikicells_logo_no_text_256x256_0.1.png`, which is square and does not have any text (just the W).  There is a corresponding xcf derived from the original xcf
