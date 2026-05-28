@@ -68,3 +68,15 @@ The new password to log in with Admin@seedloader is ohk1mu7kf74g5tfivk977qnmu5u6
 
 ## Input 11 (2026-05 creating the wikisomething server)
 Please continue (unintentional interrupt)
+
+## Input 12 (2026-05 creating the wikisomething server)
+Tell me more about Path C: would this allow us to have local and federated properties?
+
+## Input 13 (2026-05 creating the wikisomething server)
+I do not understand this: "this site IS a federated extension of Wikidata, with
+  properties indistinguishable from native ones"
+
+Is there an option to have distinguishable properties (local and federated) with a simpler implementation?
+
+## Input 14 (2026-05 creating the wikisomething server)
+yes, proceed with A

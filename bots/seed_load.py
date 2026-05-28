@@ -286,9 +286,11 @@ def load_open_questions(
             description = row.get("description", "").strip()
 
             claims: list[dict] = []
-            # P31 — "instance of" — uses Wikidata's federated property.
+            # Local "instance of" — defined in schema.yaml as P_instance_of.
+            # (Federated Properties is disabled; see infra/config/Extensions.php.)
+            instance_of_pid = id_map["P_instance_of"]
             claims.append(
-                build_snak("P31", "wikibase-item", class_qid, id_map)
+                build_snak(instance_of_pid, "wikibase-item", class_qid, id_map)
             )
 
             for col, alias, datatype in ROW_COLUMNS:

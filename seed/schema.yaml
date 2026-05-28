@@ -5,14 +5,25 @@
 # subsequent references in open-questions.tsv use the `id_alias` below to
 # resolve to the assigned IDs.
 #
-# Properties from Wikidata (e.g. P31 "instance of") are NOT redefined here —
-# Federated Properties makes them directly usable.
+# Federated Properties is disabled (see infra/config/Extensions.php section
+# 2). "Instance of" is therefore a local property — P_instance_of — rather
+# than Wikidata's P31. Wikidata cross-references, when needed, are stored as
+# URL values.
 
 # ------------------------------------------------------------------------------
 # Local properties (for the open-questions table)
 # ------------------------------------------------------------------------------
 
 properties:
+  - id_alias: P_instance_of
+    datatype: wikibase-item
+    labels:
+      en: instance of
+    descriptions:
+      en: the class that this item is a member of (local equivalent of Wikidata's P31)
+    aliases:
+      en: [is a, type]
+
   - id_alias: P_status
     datatype: wikibase-item
     labels:
@@ -60,8 +71,7 @@ properties:
 # Class items (categories that local items are "instance of")
 # ------------------------------------------------------------------------------
 #
-# We use Wikidata's P31 ("instance of") via Federated Properties to mark
-# membership rather than defining our own instance-of property.
+# Membership is asserted with the local P_instance_of property defined above.
 
 class_items:
   - id_alias: Q_class_decision

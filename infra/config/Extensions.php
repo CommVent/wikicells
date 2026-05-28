@@ -39,19 +39,21 @@
 // 2. WIKIDATA FEDERATION
 // ------------------------------------------------------------------------------
 //
-// Enables Federated Properties: properties defined on wikidata.org are usable
-// directly on local items as if they were local. Without this, every project
-// would need to re-define common properties like "instance of" (P31).
+// Federated Properties is disabled for Hello World: it is all-or-nothing
+// (every property must come from Wikidata, no local properties allowed),
+// which conflicts with the local open-questions schema in seed/schema.yaml.
+// Wikidata references in the schema and prose are by URL / external-id;
+// they are values, not federated Wikibase properties.
+//
+// Re-evaluation is scheduled for Phase E (Federation hardening) in
+// docs/roadmap.md — at that point we can stand up the multi-source
+// entitySources config that gives us both local and Wikidata properties
+// as first-class Wikibase entities.
 //
 // Reference: https://www.mediawiki.org/wiki/Wikibase/Federation
-//
-// NOTE on Hello World caveat: Federated Properties is incompatible with
-// running the local Wikibase Repo *as a property source for other wikis*.
-// We accept this trade-off — we want to be a consumer of Wikidata, not a
-// property publisher (at least at first).
 
-$wgWBRepoSettings['federatedPropertiesEnabled'] = true;
-$wgWBRepoSettings['federatedPropertiesSourceScriptUrl'] = 'https://www.wikidata.org/w/';
+// $wgWBRepoSettings['federatedPropertiesEnabled'] = true;
+// $wgWBRepoSettings['federatedPropertiesSourceScriptUrl'] = 'https://www.wikidata.org/w/';
 
 
 // ------------------------------------------------------------------------------
