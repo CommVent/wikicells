@@ -30,7 +30,6 @@
 // loaded with the "extensions/" prefix:
 //
 //   wfLoadExtension( 'extensions/CellHistory' );  // planned, not yet built
-//   wfLoadExtension( 'extensions/TrustGraph' );   // planned, not yet built
 //
 // Hello World loads no custom extensions.
 

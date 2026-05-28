@@ -54,7 +54,3 @@ Federated SPARQL queries can join local data against Wikidata in a single query.
 == Cell-level history UX gap ==
 
 Wikibase stores statement-level history — every statement change is part of an item revision — but does not ship a UI for "show me the history of this single cell." Closing that gap is the principal engineering investment after Hello World, planned as the <code>CellHistory</code> MediaWiki extension.
-
-== Trust model ==
-
-Deferred from Hello World. Hello World uses only MediaWiki's stock access-level ladder. The designed stake-and-slash vouching system is documented in [[Trust Model]] and will be implemented as the <code>TrustGraph</code> extension in a later phase.

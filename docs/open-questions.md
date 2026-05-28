@@ -11,13 +11,12 @@
 | # | Question                                | Decision                              | When       |
 | - | --------------------------------------- | ------------------------------------- | ---------- |
 | 1 | Infrastructure stack                    | Wikibase / MediaWiki                  | 2026-05-24 |
-| 2 | Trust mechanic — what does "invest" mean? | Stake-and-slash on earned floor    | 2026-05-24 |
+| 2 | Trust mechanic                            | Stock MediaWiki access-level ladder; no custom trust extension | 2026-05-24 |
 | 3 | Wikidata federation                     | Yes, enabled from day one             | 2026-05-24 |
 | 4 | Data license                            | CC0 (structured) / CC-BY-SA (prose)   | 2026-05-24 |
 | 5 | Hosting model for Hello World           | Self-hosted VPS + real domain + TLS   | 2026-05-25 |
 | 6 | First wikified table                    | The open-questions list itself        | 2026-05-25 |
-| 7 | Trust system phasing in Hello World     | Defer entirely; rely on stock MediaWiki | 2026-05-25 |
-| 8 | Initial deliverable shape               | Self-documenting Hello World site     | 2026-05-25 |
+| 7 | Initial deliverable shape               | Self-documenting Hello World site     | 2026-05-25 |
 
 ## Still open
 

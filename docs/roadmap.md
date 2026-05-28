@@ -44,27 +44,22 @@ it's the gap between Wikibase and our "every cell is a wiki" requirement.
 - `bots/export_mirror.py` — scheduled wiki → `docs/*.md` mirror for offline
   / GitHub-search discoverability.
 
-### Phase C — `TrustGraph` extension
-
-Stake-and-slash vouching system per [`trust-model.md`](trust-model.md).
-Weeks of work; meaningfully more complex than `CellHistory`.
-
-### Phase D — Oversight policy hardening
+### Phase C — Oversight policy hardening
 
 Document the appeal process for RevisionDelete and suppression; establish
 the audit trail. Train initial oversighters.
 
-### Phase E — Federation hardening
+### Phase D — Federation hardening
 
 RDF dump publishing on a schedule; SPARQL endpoint hardening; QuickStatements
 push-to-Wikidata workflow for notable facts.
 
-### Phase F — User's specific site (Goal ii)
+### Phase E — User's specific site (Goal ii)
 
 The particular wikified-database site the user originally intended,
 implemented on the now-mature infrastructure.
 
-### Phase G — Adoption packaging (Goal i)
+### Phase F — Adoption packaging (Goal i)
 
 Turn `infra/` + `extensions/` + `bots/` + `seed/` into a forkable deployment
 template other organizations can adopt with minimal setup.

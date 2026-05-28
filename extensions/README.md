@@ -11,13 +11,6 @@ the necessary data — every statement change is part of an item revision —
 but doesn't currently render a "history of this single cell / statement"
 view. This extension fills that gap.
 
-### `TrustGraph/` (later phase)
-
-Implements the stake-and-slash trust system: vouches as a custom data type,
-reputation accounting, transitive propagation (EigenTrust-flavored), and
-slashing on sanction. Deferred from Hello World — the prototype will use
-MediaWiki's stock access-level ladder only.
-
 ## Development
 
 Each extension lives in its own directory and follows the MediaWiki extension

@@ -41,19 +41,16 @@ Steps 1–7 do not depend on these — they all run locally on Docker Compose.
 ;Phase B — Bots and export
 :<code>bots/wikidata_sync.py</code> (curated import/export with Wikidata) and <code>bots/export_mirror.py</code> (scheduled wiki → markdown mirror for offline / GitHub-search discoverability).
 
-;Phase C — <code>TrustGraph</code> extension
-:Stake-and-slash vouching system per [[Trust Model]]. Weeks of work; meaningfully more complex than <code>CellHistory</code>.
-
-;Phase D — Oversight policy
+;Phase C — Oversight policy
 :Document the appeal process for RevisionDelete and suppression; establish the audit trail; train initial oversighters.
 
-;Phase E — Federation hardening
+;Phase D — Federation hardening
 :Scheduled RDF dump publishing; SPARQL endpoint hardening; QuickStatements push-to-Wikidata workflow for notable facts.
 
-;Phase F — User's specific site (Goal ii)
+;Phase E — User's specific site (Goal ii)
 :The particular wikified-database site the user originally intended, implemented on the now-mature infrastructure.
 
-;Phase G — Adoption packaging (Goal i)
+;Phase F — Adoption packaging (Goal i)
 :Turn <code>infra/</code> + <code>extensions/</code> + <code>bots/</code> + <code>seed/</code> into a forkable deployment template other organizations can adopt with minimal setup.
 
 The full decision log is maintained as wikified data — see the [[Special:WhatLinksHere/Item:Q_class_decision|Architectural decision]] class page once the seed loader has populated the data.
