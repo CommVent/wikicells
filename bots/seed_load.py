@@ -141,6 +141,13 @@ class WikibaseClient:
         if claims:
             data["claims"] = claims
 
+        if not existing_id and entity_type == "property":
+            if not datatype:
+                raise ValueError("datatype required when creating a property")
+            # Wikibase Suite v7's wbeditentity expects the new property's
+            # datatype inside the data JSON, not as a top-level URL param.
+            data["datatype"] = datatype
+
         kwargs: dict[str, Any] = {
             "action": "wbeditentity",
             "method": "POST",
@@ -152,10 +159,6 @@ class WikibaseClient:
             kwargs["id"] = existing_id
         else:
             kwargs["new"] = entity_type
-            if entity_type == "property":
-                if not datatype:
-                    raise ValueError("datatype required when creating a property")
-                kwargs["datatype"] = datatype
 
         result = self._api(**kwargs)
         return result["entity"]["id"]
@@ -294,7 +297,10 @@ def load_open_questions(
             )
 
             for col, alias, datatype in ROW_COLUMNS:
-                raw = row.get(col, "").strip()
+                # csv.DictReader fills missing cells with None when a row
+                # is shorter than the header — open-questions rows that
+                # have no decision yet don't include those columns.
+                raw = (row.get(col) or "").strip()
                 if not raw:
                     continue
                 property_id = id_map[alias]
