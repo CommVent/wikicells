@@ -47,3 +47,21 @@ In the top-level `README.md`, I think it is important to add a disclaimer at the
 
 ## Input 6 (2026-05 creating the wikisomething server)
 Yes, please add similar, appropriate disclaimers to those as well.
+
+## Input 7 (2026-05 creating the wikisomething server)
+What is next?
+
+## Input 8 (2026-05 creating the wikisomething server)
+I freed up space on / (by tidying Docker).  Please proceed
+
+## Input 9 (2026-05 creating the wikisomething server)
+<task-notification>
+<task-id>b7hvac3fr</task-id>
+<tool-use-id>toolu_013cVnfUvuTyyZsihTTmdumC</tool-use-id>
+<output-file>/tmp/claude-1000/-home-rsage-code-no-dropbox-wikisheet-or-wikibase/413f4520-488a-4c21-9a00-5e978e8cb75d/tasks/b7hvac3fr.output</output-file>
+<status>completed</status>
+<summary>Background command "Bring up stack, pull images, wait up to 15 min for all services healthy" completed (exit code 0)</summary>
+</task-notification>
+
+## Input 10 (2026-05 creating the wikisomething server)
+The new password to log in with Admin@seedloader is ohk1mu7kf74g5tfivk977qnmu5u6m75d. Please record this for future reference.

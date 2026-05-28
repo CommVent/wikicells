@@ -28,8 +28,15 @@ infra/volumes/
 infra/LocalSettings.secrets.php
 infra/.env
 infra/.env.local
+bots/.env
 *.pem
 *.key
+
+# Wiki runtime configs generated on first boot — contain $wgSecretKey and
+# other per-deploy secrets, and should never be committed.
+infra/config/LocalSettings.php
+infra/config/wikibase-php.ini
+infra/config/wdqs-frontend-config.json
 
 # Build artifacts
 dist/
