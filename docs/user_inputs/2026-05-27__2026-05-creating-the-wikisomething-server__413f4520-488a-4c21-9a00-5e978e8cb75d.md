@@ -65,3 +65,6 @@ I freed up space on / (by tidying Docker).  Please proceed
 
 ## Input 10 (2026-05 creating the wikisomething server)
 The new password to log in with Admin@seedloader is ohk1mu7kf74g5tfivk977qnmu5u6m75d. Please record this for future reference.
+
+## Input 11 (2026-05 creating the wikisomething server)
+Please continue (unintentional interrupt)
