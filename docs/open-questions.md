@@ -2,7 +2,7 @@
 
 > **Note**: This is a bootstrap mirror. Once the wiki is online, the
 > canonical version of this content lives at
-> `https://<TBD-domain>/wiki/Open_Questions` as a **wikified table** (each
+> `https://wiki.wikicells.org/wiki/Open_Questions` as a **wikified table** (each
 > row is a Wikibase item, each cell has its own revision history). The
 > markdown form below is a flat snapshot.
 
@@ -23,7 +23,7 @@
 
 | # | Question                                | Notes                                              |
 | - | --------------------------------------- | -------------------------------------------------- |
-| A | Domain name                             | User to choose and register.                       |
+| A | Domain name                             | **Decided 2026-05-27:** `wikicells.org` (served as `wiki.` / `query.` subdomains). |
 | B | VPS provider and sizing                 | ≥ 4 GB RAM recommended. Provider TBD.              |
 | C | Code license                            | Leaning AGPL-3.0 (Wikipedia/MediaWiki alignment).  |
 | D | Schema mutability                       | Anyone-adds vs. property-creation review process.  |
