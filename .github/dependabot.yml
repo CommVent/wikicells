@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Python dependencies in bots/requirements.txt
+  - package-ecosystem: pip
+    directory: /bots
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+
+  # Docker image tags in infra/docker-compose.yml
+  - package-ecosystem: docker
+    directory: /infra
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5

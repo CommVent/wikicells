@@ -1,0 +1,135 @@
+name: Security
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  # -----------------------------------------------------------------------
+  # BLOCKING — fails the PR on HIGH/CRITICAL dependency CVEs that have a
+  # fix available. Add this job as a required status check in branch
+  # protection settings to enforce it.
+  # -----------------------------------------------------------------------
+  trivy-vuln:
+    name: Trivy — Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Human-readable table output so the failure reason is visible in logs.
+      - name: Scan for HIGH/CRITICAL CVEs
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          severity: HIGH,CRITICAL
+          ignore-unfixed: true
+          exit-code: "1"
+          format: table
+
+      # SARIF scan (exit-code 0) so findings reach the Security tab even
+      # when the blocking step above has already failed.
+      - name: Generate SARIF for Security tab
+        if: always()
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: vuln
+          format: sarif
+          output: trivy-vuln.sarif
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-vuln.sarif
+          category: trivy-vuln
+
+  # -----------------------------------------------------------------------
+  # ADVISORY — Docker Compose IaC misconfig scan. Never blocks PRs.
+  # -----------------------------------------------------------------------
+  trivy-config:
+    name: Trivy — IaC Misconfigs
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Scan Docker Compose for misconfigs
+        uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          scan-ref: .
+          scanners: config
+          format: sarif
+          output: trivy-config.sarif
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: trivy-config.sarif
+          category: trivy-config
+
+  # -----------------------------------------------------------------------
+  # ADVISORY — full git-history secret scan. Never blocks PRs.
+  # -----------------------------------------------------------------------
+  gitleaks:
+    name: Gitleaks — Secret History
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Gitleaks
+        env:
+          VERSION: "8.21.2"
+        run: |
+          curl -sSfL \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${VERSION}/gitleaks_${VERSION}_linux_x64.tar.gz" \
+            | tar xz gitleaks
+
+      - name: Scan git history
+        run: ./gitleaks detect --source . -f sarif -r gitleaks.sarif
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: gitleaks.sarif
+          category: gitleaks
+
+  # -----------------------------------------------------------------------
+  # ADVISORY — Python SAST for bots/. Never blocks PRs.
+  # -----------------------------------------------------------------------
+  bandit:
+    name: Bandit — Python SAST
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install bandit
+        run: pip install bandit[sarif]
+
+      - name: Scan bots/
+        run: bandit -r bots/ -f sarif -o bandit.sarif || true
+
+      - name: Upload SARIF
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: bandit.sarif
+          category: bandit
