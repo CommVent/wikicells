@@ -15,7 +15,7 @@ The closest existing platform is [https://www.wikidata.org/ Wikidata] (built on 
 == Two goals ==
 
 # '''Build the infrastructure''' so that other organizations can spin up similar wikified-database sites.
-# '''Use that infrastructure''' to host the project's own documentation (the site you're reading) and a specific target site (details forthcoming).
+# '''Use that infrastructure''' to host the project's own documentation (the site you're reading) and eventually to host the creators' own projects.
 
 == Values ==
 
