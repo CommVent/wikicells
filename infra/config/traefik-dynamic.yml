@@ -27,6 +27,13 @@ http:
           - url: "http://quickstatements:80"
 
   routers:
+    # Redirect www and the legacy wiki. subdomain to the canonical bare domain,
+    # preserving path. Traefik issues certs for these aliases automatically.
+    wikibase-alias-redirect:
+      rule: 'Host(`www.{{ env "WIKIBASE_PUBLIC_HOST" }}`) || Host(`wiki.{{ env "WIKIBASE_PUBLIC_HOST" }}`)'
+      middlewares: [ redirect-to-canonical ]
+      service: wikibase
+
     # Main wiki on WIKIBASE_PUBLIC_HOST. /tools/* is split off below so the
     # QuickStatements URL can be served from the same hostname.
     wikibase-router:
@@ -79,6 +86,14 @@ http:
         burst: 30
         average: 60
         period: 1m
+
+    # Redirect www/wiki aliases to canonical hostname, preserving path.
+    # {{ "$1" }} is the Go-template-escaped form of the regex capture group $1.
+    redirect-to-canonical:
+      redirectRegex:
+        regex: '^https?://[^/]+(.*)'
+        replacement: 'https://{{ env "WIKIBASE_PUBLIC_HOST" }}{{ "$1" }}'
+        permanent: true
 
     # Trailing-slash normalizer for the QuickStatements path.
     quickstatements-redirectregex:
