@@ -41,13 +41,16 @@ class WikibaseClient:
 
     host: str
     session: requests.Session
+    scheme: str = "https"
     csrf_token: str = ""
 
     @classmethod
-    def login(cls, host: str, user: str, password: str) -> "WikibaseClient":
+    def login(
+        cls, host: str, user: str, password: str, scheme: str = "https"
+    ) -> "WikibaseClient":
         """Log in and obtain a CSRF token."""
         session = requests.Session()
-        client = cls(host=host, session=session)
+        client = cls(host=host, session=session, scheme=scheme)
 
         # Step 1: fetch a login token.
         login_token = client._get_token("login")
@@ -66,7 +69,7 @@ class WikibaseClient:
         return client
 
     def _api_url(self) -> str:
-        return f"https://{self.host}/w/api.php"
+        return f"{self.scheme}://{self.host}/w/api.php"
 
     def _api(self, action: str, method: str = "GET", **params: Any) -> dict:
         """Issue an API request, return parsed JSON, raise on API-level errors."""
@@ -323,6 +326,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", required=True, help="wiki hostname (no scheme)")
     parser.add_argument(
+        "--scheme",
+        choices=("http", "https"),
+        default="https",
+        help="URL scheme; use http for localhost-only dry-runs.",
+    )
+    parser.add_argument(
         "--seed-dir",
         type=Path,
         default=Path(__file__).resolve().parent.parent / "seed",
@@ -346,8 +355,8 @@ def main() -> int:
 
     schema = yaml.safe_load(schema_path.read_text(encoding="utf-8"))
 
-    print(f"==> Logging into {args.host} as {user}")
-    client = WikibaseClient.login(args.host, user, password)
+    print(f"==> Logging into {args.scheme}://{args.host} as {user}")
+    client = WikibaseClient.login(args.host, user, password, scheme=args.scheme)
 
     id_map: dict[str, str] = {}
 
