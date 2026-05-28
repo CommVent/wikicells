@@ -80,3 +80,9 @@ Is there an option to have distinguishable properties (local and federated) with
 
 ## Input 14 (2026-05 creating the wikisomething server)
 yes, proceed with A
+
+## Input 15 (2026-05 creating the wikisomething server)
+I just created `wikicells_logo_0.1.png`: where should this be placed to be wired in as the logo?
+
+## Input 16 (2026-05 creating the wikisomething server)
+I do not want to exclude the .xcf, since that is what somebody would use to edit the .png
