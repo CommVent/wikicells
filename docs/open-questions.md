@@ -31,7 +31,7 @@
 | G | Anonymous editing                       | Wikipedia-style IP edits, or login required.       |
 | H | Anti-abuse posture                      | Edit-rate limits, CAPTCHA, AI-content detection.   |
 | I | Scale targets                           | Year-1 and Year-2 users / rows / edits-per-day.    |
-| J | The user's specific site (Goal ii)      | Topic, schema, initial content. Deliberately deferred. |
+| J | Maintainers' first deployment           | Topic, schema, and initial content for the first non-self-referential deployment. TBD. |
 
 ## How this document evolves
 

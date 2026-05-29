@@ -15,4 +15,4 @@ Initial admin and oversighter set	Who holds admin and oversighter rights at laun
 Anonymous editing	May unauthenticated users edit, Wikipedia-style?	Q_status_open
 Anti-abuse posture	What edit-rate limits, CAPTCHA, and AI-content detection are in place?	Q_status_open
 Scale targets	What user, row, and edit-rate targets define year-1 and year-2 success?	Q_status_open
-User's specific site (Goal ii)	What is the topic, schema, and initial content of the target site?	Q_status_deferred
+Maintainers' first deployment	What is the topic, schema, and initial content of the maintainers' first non-self-referential deployment?	Q_status_deferred

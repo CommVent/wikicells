@@ -28,3 +28,16 @@ This site federates with [https://www.wikidata.org/ Wikidata]. Properties define
 == Query the data ==
 
 The SPARQL endpoint is at <code>https://<TBD-wdqs-host>/sparql</code>; the query UI is at the root of that hostname.
+
+== Known deployments ==
+
+''This section will list notable sites running on wikicells infrastructure. If you have deployed wikicells, consider adding your site here.''
+
+{| class="wikitable"
+! Site
+! Domain
+! Focus area
+! Status
+|-
+| (placeholder) || — || — || —
+|}

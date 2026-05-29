@@ -47,8 +47,8 @@ Steps 1–7 do not depend on these — they all run locally on Docker Compose.
 ;Phase D — Federation hardening
 :Scheduled RDF dump publishing; SPARQL endpoint hardening; QuickStatements push-to-Wikidata workflow for notable facts.
 
-;Phase E — User's specific site (Goal ii)
-:The particular wikified-database site the user originally intended, implemented on the now-mature infrastructure.
+;Phase E — Maintainers' first deployment
+:The project maintainers' own wikified-database site, built on this infrastructure — serving as a real-world stress test and reference deployment. A [[Known Deployments]] index will grow as others adopt the stack.
 
 ;Phase F — Adoption packaging (Goal i)
 :Turn <code>infra/</code> + <code>extensions/</code> + <code>bots/</code> + <code>seed/</code> into a forkable deployment template other organizations can adopt with minimal setup.

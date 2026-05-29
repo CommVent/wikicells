@@ -40,7 +40,7 @@ See `docs/architecture.md` for the rationale.
 1. **Build the infrastructure** so that other organizations can spin up
    similar wikified-database sites with minimal effort.
 2. **Use that infrastructure** to host this project's own documentation
-   and a particular target site (details forthcoming).
+   and to power the maintainers' own projects as real-world reference deployments.
 
 ## Layout
 
