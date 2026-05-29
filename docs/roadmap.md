@@ -54,10 +54,12 @@ the audit trail. Train initial oversighters.
 RDF dump publishing on a schedule; SPARQL endpoint hardening; QuickStatements
 push-to-Wikidata workflow for notable facts.
 
-### Phase E — User's specific site (Goal ii)
+### Phase E — Maintainers' first deployment
 
-The particular wikified-database site the user originally intended,
-implemented on the now-mature infrastructure.
+The project maintainers' own wikified-database site, built on this
+infrastructure — serving as a real-world stress test and reference deployment.
+A [Known Deployments](known-deployments.md) index will grow as others adopt
+the stack.
 
 ### Phase F — Adoption packaging (Goal i)
 
