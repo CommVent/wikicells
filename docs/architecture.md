@@ -64,12 +64,3 @@ Wikibase stores statement-level history (it's reconstructable from item
 revisions) but doesn't ship a UI for "show me the history of just this one
 cell." Closing this gap is the principal engineering investment of the
 post-Hello-World phase, planned as the `CellHistory` MediaWiki extension.
-
-## Trust model
-
-Deferred from Hello World. Hello World uses only MediaWiki's stock access-
-level ladder (autoconfirmed at 4 days / 10 edits, extended-confirmed at 30
-days / 500 edits, reviewer/rollbacker/sysop granted by admins, oversighter
-at top). The planned stake-and-slash vouching system is documented in
-[`trust-model.md`](trust-model.md) and will be implemented as the
-`TrustGraph` extension in a later phase.

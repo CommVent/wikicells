@@ -13,7 +13,6 @@ This is the reference deployment of [https://github.com/CommVent/wikicells wikic
 * [[About]] — what this project is and why it exists
 * [[Architecture]] — the stack, the data model, the federation posture
 * [[Roadmap]] — what's built, what's next
-* [[Trust Model]] — how reputation works (designed; not yet implemented)
 * [[Open Questions]] — the project's own decision log, hosted here as a wikified table (the first one)
 
 == Contributing ==
