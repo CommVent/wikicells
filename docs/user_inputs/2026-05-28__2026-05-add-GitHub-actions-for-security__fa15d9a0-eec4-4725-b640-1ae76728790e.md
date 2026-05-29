@@ -11,3 +11,9 @@ What scanners do you recommend?
 
 ## Input 4 (2026-05 add GitHub actions for security)
 Yes, let's proceed with your recommendations
+
+## Input 5 (2026-05 add GitHub actions for security)
+I do not see the Trivy options.  I see `Require code quality results` and `Require code scanning results` (which seems to contain only CodeQL)
+
+## Input 6 (2026-05 add GitHub actions for security)
+Should I also `Require code scanning results`?
